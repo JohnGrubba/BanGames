@@ -10,7 +10,7 @@ socketio.init_app(app, cors_allowed_origins="*")
 
 # For Email Verification (Base URL of the Server)
 # base_url = "http://127.0.0.1:1237/"
-base_url = "http://127.0.0.1:1237/"
+base_url = "https://bangames.jjhost.tk/"
 
 
 @socketio.on("account_request")
