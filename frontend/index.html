@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="stylesheet" href="style/main.css">
+    <title>BAN Games</title>
+</head>
+
+<body>
+    <!-- Create the home screen with buttons for the games -->
+    <div class="home-screen" style="display: none;">
+        <h1>Welcome to the Game Selector</h1>
+        <button class="game-button" onclick="window.location.href='games/4wins.html'">
+            <img src="" alt="4 Wins"> 4 Wins
+        </button>
+        <button class="game-button" onclick="window.location.href='games/tictactoe.html'">
+            <img src="" alt="Tic Tac Toe"> Tic Tac Toe
+        </button>
+    </div>
+
+    <div class="signup-screen">
+        <h1>Welcome to BAN Games</h1>
+        <h2>Create your Account here</h2>
+        <button onclick="switch_screen('login')">I already have an Account</button>
+        <input type="text" placeholder="Email">
+        <input type="username" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button onclick="signup()">Signup</button>
+    </div>
+
+    <div class="login-screen" style="display: none;">
+        <h1>Welcome to BAN Games</h1>
+        <h2>Login here</h2>
+        <button onclick="switch_screen('signup')">Signup Instead</button>
+
+</body>
+<script src="scripts/main.js"></script>
+
+</html>

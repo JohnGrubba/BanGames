@@ -1,0 +1,69 @@
+/* Add some general styling for the home screen */
+html {
+    background-color: rgb(60, 60, 60);
+}
+
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    font-family: sans-serif;
+}
+
+/* Style the buttons for the games */
+.game-button {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Add some hover effects for the buttons */
+.game-button:hover {
+    background-color: lightgrey;
+}
+
+/* Add some animation to the home screen */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.home-screen {
+    animation: fadeIn 0.5s;
+}
+
+/* Make the home screen responsive */
+@media screen and (max-width: 600px) {
+    .game-button {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* Style the graphics for the games */
+.game-button img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 20px;
+}

@@ -1,0 +1,17 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 300px;
+}
+
+.cell {
+    width: 97px;
+    background-color: grey;
+    border: 1px black solid;
+    height: 98px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+}
