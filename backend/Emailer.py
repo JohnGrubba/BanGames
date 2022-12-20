@@ -11,7 +11,7 @@ password = open("EMAILKEY.env", "r").read()
 server.login(sender_email, password)
 
 
-def send_mail(url, receiver):
+def send_mail(url, receiver) -> bool:
     message = f"""\
     Subject: Confirm your Account Creation
 
