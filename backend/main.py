@@ -2,7 +2,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 
 from Account import request_account, activate_account, login, accs_keys
-from BanStuff import process_deposit
+from BanStuff import process_deposit, process_withdrawal
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -45,9 +45,26 @@ def deposit(data):
         acc = accs_keys[data["key"]]
     except:
         return
-    old = accs_keys[data["key"]]
-    old["balance"] += process_deposit(acc["deposit_keypair"])
-    accs_keys[data["key"]] = old
+    acc["balance"] += process_deposit(acc["deposit_keypair"])
+    accs_keys[data["key"]] = acc
+    status(data)
+
+
+@socketio.on("withdraw")
+def withdraw(data):
+    try:
+        acc = accs_keys[data["key"]]
+        amount = float(data["amount"])
+        address = data["address"]
+        if amount < 0.01 or acc["balance"] < amount:
+            raise Exception()
+    except:
+        return
+    acc["balance"] -= amount
+    if not process_withdrawal(address, amount):
+        socketio.send({"status": "error", "message": "Error when Withdrawing"})
+        return
+    accs_keys[data["key"]] = acc
     status(data)
 
 

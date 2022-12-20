@@ -13,17 +13,16 @@ def process_deposit(keypair: dict) -> float:
     account = Wallet(rpc, keypair["seed"])
     account.receive_all()
     deposit_amount = float(account.get_balance()["balance_decimal"])
-    print(deposit_amount)
     if float(deposit_amount) >= 0.01:
         account.send(MAIN_DEPOSIT_WALLET.get_address(), str(deposit_amount))
-        print("Deposit Processed")
+        print(f"Deposit of {str(deposit_amount)} BAN Processed")
         return deposit_amount
     return 0
 
 
 def process_withdrawal(payout_address: str, amount: float) -> bool:
     try:
-        MAIN_DEPOSIT_WALLET.send(payout_address, amount)
+        MAIN_DEPOSIT_WALLET.send(payout_address, str(amount))
     except:
         return False
     return True
