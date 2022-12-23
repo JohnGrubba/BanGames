@@ -1,69 +1,190 @@
-/* Add some general styling for the home screen */
-html {
-    background-color: rgb(60, 60, 60);
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
 }
 
-.home-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+html {
+    overflow-y: scroll;
+}
+
+body {
+    background: #c1bdba;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #1ab188;
+    transition: .5s ease;
+}
+
+a:hover {
+    color: #179b77;
+}
+
+.form {
+    background: rgba(19, 35, 47, 0.9);
+    padding: 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
+
+.tab-group {
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    background: rgba(95, 95, 95, 0.9);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+    width: 100%;
+}
+
+.tab-group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.tab-group li a {
+    display: block;
+    text-decoration: none;
+    padding: 15px;
+    background: rgba(160, 179, 176, 0.25);
+    color: #a0b3b0;
+    font-size: 20px;
+    float: left;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: .5s ease;
+}
+
+.tab-group.main li a {
+    width: 33.33333333333333%;
+}
+
+
+.tab-group li a:hover {
+    background: #179b77;
+    color: #ffffff;
+}
+
+.tab-group .active a {
+    background: #1ab188;
+    color: #ffffff;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-weight: 300;
+    margin: 0 0 40px;
+}
+
+label {
+    position: absolute;
+    transform: translateY(6px);
+    left: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    font-size: 22px;
+}
+
+label .req {
+    margin: 2px;
+    color: #1ab188;
+}
+
+label.active {
+    transform: translateY(50px);
+    left: 2px;
+    font-size: 14px;
+}
+
+label.active .req {
+    opacity: 0;
+}
+
+label.highlight {
+    color: #ffffff;
+}
+
+input,
+textarea {
+    font-size: 22px;
+    display: block;
     width: 100%;
     height: 100%;
-    background-color: lightblue;
-    font-family: sans-serif;
+    padding: 5px 10px;
+    background: none;
+    background-image: none;
+    border: 1px solid #a0b3b0;
+    color: #ffffff;
+    border-radius: 0;
+    transition: border-color .25s ease, box-shadow .25s ease;
 }
 
-/* Style the buttons for the games */
-.game-button {
-    display: inline-block;
-    width: 200px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+input:focus,
+textarea:focus {
+    outline: 0;
+    border-color: #1ab188;
+}
+
+textarea {
+    border: 2px solid #a0b3b0;
+    resize: vertical;
+}
+
+.field-wrap {
     position: relative;
+    margin-bottom: 40px;
 }
 
-/* Add some hover effects for the buttons */
-.game-button:hover {
-    background-color: lightgrey;
+.top-row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
-/* Add some animation to the home screen */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.top-row>div {
+    float: left;
+    width: 48%;
+    margin-right: 4%;
 }
 
-.home-screen {
-    animation: fadeIn 0.5s;
+.top-row>div:last-child {
+    margin: 0;
 }
 
-/* Make the home screen responsive */
-@media screen and (max-width: 600px) {
-    .game-button {
-        width: 100%;
-        margin: 10px 0;
-    }
+.button {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: #1ab188;
+    color: #ffffff;
+    transition: all 0.5s ease;
+    cursor: pointer;
 }
 
-/* Style the graphics for the games */
-.game-button img {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 20px;
+.button:hover,
+.button:focus {
+    background: #179b77;
+}
+
+.button-block {
+    display: block;
+    width: 100%;
+}
+
+.forgot {
+    margin-top: -20px;
+    text-align: right;
 }
