@@ -11,7 +11,11 @@ def new_deposit_keypair() -> dict:
 
 def process_deposit(keypair: dict) -> float:
     account = Wallet(rpc, keypair["seed"])
-    account.receive_all()
+    try:
+        account.receive_all()
+    except:
+        # Already processing
+        return 0
     deposit_amount = float(account.get_balance()["balance_decimal"])
     if float(deposit_amount) >= 0.01:
         account.send(MAIN_DEPOSIT_WALLET.get_address(), str(deposit_amount))
@@ -21,6 +25,10 @@ def process_deposit(keypair: dict) -> float:
 
 
 def process_withdrawal(payout_address: str, amount: float) -> bool:
+    try:
+        MAIN_DEPOSIT_WALLET.receive_all()
+    except:
+        pass
     try:
         MAIN_DEPOSIT_WALLET.send(payout_address, str(amount))
     except:

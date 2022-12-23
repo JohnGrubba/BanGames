@@ -1,21 +1,30 @@
-import smtplib, ssl
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 print("Initializing Email Server")
-port = 465  # For SSL
-smtp_server = "smtp.gmail.com"
-context = ssl.create_default_context()
-server = smtplib.SMTP_SSL(smtp_server, port, context=context)
-sender_email = "harpscharo@gmail.com"  # Enter your address
+server = smtplib.SMTP("smtp.office365.com", 587)
+sender_email = "bangames@outlook.de"
 password = open("EMAILKEY.env", "r").read()
+server.starttls()
 server.login(sender_email, password)
 
 
 def send_mail(url, receiver) -> bool:
-    message = f"""\Subject: Confirm your Account Creation
-    Click on this Link to Create your Account for BAN Games: {url}"""
+    server.login(sender_email, password)
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = "Confirm your Account Creation for BanGames"
+    msg["From"] = sender_email
+    msg["To"] = receiver
+    with open("confirm_email.html", "r") as f:
+        html = f.read()
+        html = html.replace("{CONFIRMATION_LINK}", url)
+        message = MIMEText(html, "html")
+    msg.attach(message)
     try:
-        server.sendmail(sender_email, receiver, message)
+        server.sendmail(sender_email, receiver, msg.as_string())
     except smtplib.SMTPRecipientsRefused:
         return False
+    print("Email Sent")
     return True

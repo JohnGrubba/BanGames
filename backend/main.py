@@ -36,7 +36,7 @@ def status(data):
         "deposit_address": acc["deposit_keypair"]["address"],
         "username": acc["username"],
     }
-    socketio.send(stats)
+    socketio.emit("stats", stats)
 
 
 @socketio.on("deposit")
@@ -61,10 +61,10 @@ def withdraw(data):
     except:
         return
     acc["balance"] -= amount
+    accs_keys[data["key"]] = acc
     if not process_withdrawal(address, amount):
         socketio.send({"status": "error", "message": "Error when Withdrawing"})
         return
-    accs_keys[data["key"]] = acc
     status(data)
 
 
