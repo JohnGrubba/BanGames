@@ -6,3 +6,5 @@
 - Play against strangers for BAN
 - Earn BAN for Games
 - Deposits and Withdrawals as low as 0.01 BAN
+
+- https://johngrubba.github.io/BanGames/
