@@ -12,6 +12,10 @@ server.login(sender_email, password)
 
 
 def send_mail(url, receiver) -> bool:
+    try:
+        server.connect()
+    except:
+        pass
     server.login(sender_email, password)
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "Confirm your Account Creation for BanGames"
