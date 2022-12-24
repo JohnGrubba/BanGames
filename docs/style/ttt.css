@@ -15,3 +15,62 @@
     align-items: center;
     font-size: 48px;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Add some styling for the menu items */
+.menu-item {
+    text-align: center;
+    background-color: #555;
+    color: #fff;
+    padding: 10px;
+    margin: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Add some styling for the input field */
+.menu-item input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    margin-left: 10px;
+    outline: none;
+    width: 200px;
+}
+
+button {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: #2d2d2d;
+    color: #ffffff;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background: #aaaaaa;
+    color: #2d2d2d;
+}

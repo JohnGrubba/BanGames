@@ -23,6 +23,20 @@
         <div class="tab-content">
             <div id="games">
                 <h1>Games</h1>
+                <!-- Create the game selector container -->
+                <div class="game-selector">
+                    <!-- Create the tic-tac-toe game card -->
+                    <div class="game-card" onclick="window.location='games/tictactoe.html'">
+                        <img class="game-image" src="img/tictactoe.png" alt="Tic-Tac-Toe game">
+                        <div class="game-title">Tic-Tac-Toe</div>
+                    </div>
+
+                    <!-- Create the 4 wins game card -->
+                    <div class="game-card" onclick="window.location='4-wins.html'">
+                        <img class="game-image" src="img/4wins.png" alt="4 Wins game">
+                        <div class="game-title">4 Wins</div>
+                    </div>
+                </div>
             </div>
             <div id="account"
                 style="display: none; width: min(50%, 1000px); margin-left: auto; margin-right: auto;text-overflow: ellipsis;overflow: hidden; white-space: nowrap;">
