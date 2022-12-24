@@ -5,23 +5,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/main.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style/ttt.css">
-    <title>BAN Games - TicTacToe</title>
+    <title>BAN Games</title>
 </head>
 
 <body>
-    <div class=" grid">
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
+    <div class="game" style="display: none;">
+        <div class=" grid">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
     </div>
+
+    <div class="menu">
+        <div class="menu-item">
+            <h1 id="no-games">No Public Games</h1>
+            <ul id="room-list" style="display: none;">
+            </ul>
+        </div>
+        <!-- Add a menu item for creating a new game session -->
+        <div class="menu-item">
+            <h2>Create Game</h2>
+            <p>Stake<input type="number" min="0.01" max="1000" value="1" id="stake">BAN</p>
+            <button onclick="createSession()">Create Game</button>
+        </div>
+    </div>
+
 </body>
 <script src="../scripts/ttt.js"></script>
 
