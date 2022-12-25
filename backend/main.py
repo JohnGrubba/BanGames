@@ -1,6 +1,6 @@
 from flask import Flask, request
 import random, string
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
 from Account import request_account, activate_account, login, accs_keys
 from BanStuff import process_deposit, process_withdrawal
@@ -93,6 +93,25 @@ def list_ttt_games():
     emit("games", serialized, namespace="/tictactoe")
 
 
+def update_games():
+    serialized = {}
+    for key in ttt_games:
+        serialized[key] = ttt_games[key].copy()
+        serialized[key]["game_instance"] = serialized[key]["game_instance"].__repr__()
+        serialized[key]["players"] = len(serialized[key]["players"])
+    socketio.emit("games", serialized, namespace="/tictactoe")
+
+
+@socketio.on("disconnect", namespace="/tictactoe")
+def remove_ttt_player():
+    for game in list(ttt_games):
+        for players in ttt_games[game]["players"]:
+            if players["sid"] == request.sid:
+                del ttt_games[game]
+                break
+    update_games()
+
+
 @socketio.on("create_ttt_game", namespace="/tictactoe")
 def create_ttt_game(data):
     try:
@@ -109,7 +128,7 @@ def create_ttt_game(data):
     # Only one game creation per account
     for game in ttt_games:
         for player in ttt_games[game]["players"]:
-            if data["key"] == player:
+            if data["key"] == player["key"]:
                 send(
                     {"status": "error", "message": "One game creation per user"},
                     namespace="/tictactoe",
@@ -124,10 +143,12 @@ def create_ttt_game(data):
     # Initialize new TicTacToe Game
     ttt_games[tmpkey] = {
         "game_instance": TicTacToe(),
-        "players": [data["key"]],
+        "players": [{"key": data["key"], "sid": request.sid}],
         "stake": stake,
     }
+    join_room(tmpkey, namespace="/tictactoe")
     send({"status": "ok", "data": {"game_id": tmpkey}}, namespace="/tictactoe")
+    update_games()
 
 
 @socketio.on("join_ttt_game", namespace="/tictactoe")
@@ -141,10 +162,9 @@ def join_ttt_game(data):
     # Check if user is already in a game
     for game in ttt_games:
         for player in ttt_games[game]["players"]:
-            if data["key"] == player:
+            if data["key"] == player["key"]:
                 send(
-                    {"status": "error", "message": "Already in a game"},
-                    namespace="/tictactoe",
+                    {"status": "ok", "data": {"game_id": game}}, namespace="/tictactoe"
                 )
                 return
     # Check if user has enough stake
@@ -153,11 +173,15 @@ def join_ttt_game(data):
         return
     # Check if game is free
     if len(ttt_games[game_id]["players"]) < 2:
-        if not data["key"] in ttt_games[game_id]["players"]:
-            ttt_games[game_id]["players"].append({"key": data["key"]})
-            send({"status": "ok"}, namespace="/tictactoe")
-        else:
-            send({"status": "ok"}, namespace="/tictactoe")
+        ttt_games[game_id]["players"].append({"key": data["key"], "sid": request.sid})
+        join_room(game_id, namespace="/tictactoe")
+        send({"status": "ok", "data": {"game_id": game_id}}, namespace="/tictactoe")
+        socketio.emit(
+            "board",
+            game["game_instance"].__repr__(),
+            namespace="/tictactoe",
+        )
+        update_games()
     else:
         send(
             {"status": "error", "message": "This room is full"}, namespace="/tictactoe"
@@ -173,18 +197,20 @@ def place_tic_tac_toe(data):
     except:
         return
     try:
-        player = game["players"].index(data["key"])
+        player = [i["key"] for i in game["players"]].index(data["key"])
         player = "O" if player == 0 else "X"
     except ValueError:
         send(
             {"status": "error", "message": "You are not in this Room"},
             namespace="/tictactoe",
         )
+        return
     # Check if user is in this game
     if game["game_instance"].__repr__()["currentPlayer"] == player:
         if game["game_instance"].makeMove(position):
-            socketio.send(
-                {"status": "ok", "data": game["game_instance"].__repr__()},
+            socketio.emit(
+                "board",
+                game["game_instance"].__repr__(),
                 namespace="/tictactoe",
             )
         else:
