@@ -3,8 +3,12 @@ const socket = io("https://bangames.jjhost.tk/tictactoe");
 
 socket.on("message", (data) => {
     console.log(data);
+    if (data.status == "ok") {
+        startGame();
+        game_id = data.data.game_id;
+    }
 });
-
+var game_id = null;
 
 // Get the avaliable rooms
 socket.on("games", (rooms) => {
@@ -23,19 +27,22 @@ socket.on("games", (rooms) => {
         document.getElementById("room-list").style.display = "block";
     }
     roomList.innerHTML = roms;
-    // Add the rooms to the room list
+});
 
+socket.on("board", (data) => {
+    console.log(data);
 });
 
 
 function startGame() {
     document.getElementById("game").style.display = "block";
-    document.getElementById("create").style.display = "none";
+    document.getElementById("menu").style.display = "none";
 }
 
 function join_room(id) {
     console.log("Joining Room " + id);
     socket.emit("join_ttt_game", { "game_id": id, "key": localStorage.getItem("token") });
+    game_id = id;
 }
 
 function createSession() {
@@ -73,6 +80,8 @@ function handleClick(e) {
     // Place the player's symbol in the cell
     if (cell.innerText === "") {
         cell.innerText = currentPlayer;
+        console.log(cell.id);
+        socket.emit("place", { "key": localStorage.getItem("token"), "position": cell.id, "game_id": game_id })
 
         // Toggle the current player
         currentPlayer = currentPlayer === "X" ? "O" : "X";
